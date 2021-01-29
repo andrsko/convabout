@@ -1,0 +1,42 @@
+{
+  "short_name": "Convabout",
+  "name": "Convabout",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }, {
+      "src": "favicon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }, {
+      "src": "favicon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "favicon-168.png",
+      "sizes": "168x168",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "favicon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

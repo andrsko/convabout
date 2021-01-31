@@ -22,6 +22,7 @@ import { WebSocketContext } from "../../app/websocket";
 import { MessageList } from "./MessageList";
 
 import { Loader } from "../../shared/Loader";
+import { isTouchScreen } from "../../utils/isTouchScreen";
 import send from "./send.svg";
 import styles from "./ChatWindow.module.css";
 
@@ -155,8 +156,10 @@ export const ChatWindow = () => {
     );
 
   useEffect(() => {
-    if (token) messageInputRef.current.focus();
-    else usernameInputRef.current.focus();
+    // autofocus input if not touchscreen
+    if (!isTouchScreen())
+      if (token) messageInputRef.current.focus();
+      else usernameInputRef.current.focus();
   }, [token]);
 
   // used to auto resize message input

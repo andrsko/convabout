@@ -9,15 +9,29 @@ import { Loader } from "../../shared/Loader";
 
 import styles from "./PostList.module.css";
 
+import messageCount from "./messageCount.svg";
+
 const PostExcerpt = ({ post }) => {
   return (
     <Link to={`/chat?p=${post.id}`}>
       <article className={styles.postExcerpt} key={post.id}>
         <p className={styles.postTitle}>{post.title}</p>
 
-        <p className={styles.postInfo}>
-          {`by ${post.username} ${timeAgo(post.inserted_at)}`}
-        </p>
+        <div className={styles.postInfo}>
+          <p className={styles.postAuthorAndTimestamp}>{`by ${
+            post.username
+          } ${timeAgo(post.inserted_at)}`}</p>
+          <div className={styles.messageCount}>
+            <div className={styles.messageCountInterlayer}>
+              <img
+                className={styles.messageCountIcon}
+                src={messageCount}
+                alt="message-count"
+              />
+              <p className={styles.messageCountValue}>{post.message_count}</p>
+            </div>
+          </div>
+        </div>
       </article>
     </Link>
   );

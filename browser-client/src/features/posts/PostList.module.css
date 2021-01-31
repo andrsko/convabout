@@ -30,7 +30,36 @@ a {
   color: #959595;
   font-size: 14px;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
+  display: inline-block;
+  width: 100%;
+  padding: 0;
+}
+
+.postAuthorAndTimestamp {
+  display: inline-block;
+  margin: 0;
+}
+
+.messageCount {
+  float: right;
+}
+
+.messageCountInterlayer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.messageCountIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.messageCountValue {
+  margin: 0;
+  margin-left: 5px;
+  color: #555555;
 }
 
 @media only screen and (min-width: 768px) {

@@ -10,6 +10,8 @@ defmodule Convabout.Core do
 
   alias Convabout.Core.Message
 
+  alias Convabout.Utils
+
   def list_messages_by_post(post_id) do
     qry =
       from(m in Message,
@@ -31,8 +33,16 @@ defmodule Convabout.Core do
 
   """
   def list_posts do
-    Repo.all(Post)
-    |> Repo.preload([:user])
+    {:ok, postgrex_result} =
+      Repo.query("SELECT posts.*, users.username, COUNT(messages.id) AS message_count
+    FROM posts
+    LEFT JOIN users
+    ON posts.user_id=users.id
+      LEFT JOIN messages
+      ON posts.id=messages.post_id
+      GROUP BY posts.id, users.username;")
+
+    Utils.postgrex_result_to_map(postgrex_result)
   end
 
   @doc """

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Linkify from "react-linkify";
 
 import styles from "./MessageList.module.css";
 
@@ -15,7 +16,9 @@ const MessageExcerpt = ({ message }) => {
   return (
     <div className={styles.messageExcerpt}>
       <p className={styles.author}>{message.username}</p>
-      <p className={styles.body}>{message.body}</p>
+      <Linkify>
+        <p className={styles.body}>{message.body}</p>
+      </Linkify>
       <p className={styles.timestamp}>{toTimeAmPm(message.inserted_at)}</p>
     </div>
   );

@@ -17,8 +17,8 @@ export const SignInForm = () => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const requestStatus = useSelector((state) => state.posts.postsStatus);
-  const error = useSelector((state) => state.posts.postsError);
+  const requestStatus = useSelector((state) => state.auth.signInStatus);
+  const error = useSelector((state) => state.auth.signInError);
 
   const canSave = username && password && requestStatus !== "loading";
   const onSignUpClick = async () => {

@@ -18,8 +18,8 @@ export const SignUpForm = () => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const requestStatus = useSelector((state) => state.posts.postsStatus);
-  const error = useSelector((state) => state.posts.postsError);
+  const requestStatus = useSelector((state) => state.auth.signUpStatus);
+  const error = useSelector((state) => state.auth.signUpError);
 
   const canSave = username && password && requestStatus !== "loading";
   const onSignUpClick = async () => {

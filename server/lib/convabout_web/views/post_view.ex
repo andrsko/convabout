@@ -6,6 +6,10 @@ defmodule ConvaboutWeb.PostView do
     %{data: render_many(posts, PostView, "post_excerpt.json")}
   end
 
+  def render("posts_of_tag.json", %{posts: posts}) do
+    %{data: render_many(posts, PostView, "post_excerpt.json")}
+  end
+
   def render("show.json", %{post: post}) do
     %{data: render_one(post, PostView, "post.json")}
   end
@@ -17,7 +21,8 @@ defmodule ConvaboutWeb.PostView do
       inserted_at: post.inserted_at,
       updated_at: post.updated_at,
       username: post.username,
-      message_count: post.message_count
+      message_count: post.message_count,
+      tags: post.tags,
     }
   end
 
@@ -27,7 +32,8 @@ defmodule ConvaboutWeb.PostView do
       title: post.title,
       inserted_at: post.inserted_at,
       updated_at: post.updated_at,
-      username: post.user.username
+      username: post.user.username,
+      tags: post.tags,
     }
   end
 end

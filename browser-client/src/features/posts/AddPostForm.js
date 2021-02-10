@@ -20,6 +20,9 @@ export const AddPostForm = () => {
   const [username, setUsername] = useState("");
   const onUsernameChanged = (e) => setUsername(e.target.value);
 
+  const [tags, setTags] = useState("");
+  const onTagsChanged = (e) => setTags(e.target.value);
+
   const [title, setTitle] = useState("");
   const onTitleChanged = (e) => setTitle(e.target.value);
 
@@ -61,7 +64,7 @@ export const AddPostForm = () => {
         }
 
         const addNewPostResultAction = await dispatch(
-          addNewPost({ token, post: { title } })
+          addNewPost({ token, post: { title, tags } })
         );
         unwrapResult(addNewPostResultAction);
         dispatch(fetchPosts());
@@ -106,6 +109,15 @@ export const AddPostForm = () => {
       <form className={styles.addPostForm}>
         {SignUpForm}
         {invalidUsernameError}
+        <label htmlFor="tags">Tags:</label>
+        <input
+          type="text"
+          name="tags"
+          id="tags"
+          maxLength="100"
+          value={tags}
+          onChange={onTagsChanged}
+        />
         <label htmlFor="postTitle">Title:</label>
         <textarea
           name="postTitle"

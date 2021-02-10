@@ -14,6 +14,7 @@ export const Header = () => {
   const onDropdownToggle = () => setDisplayDropdown(!displayDropdown);
 
   const username = useSelector((state) => state.auth.username);
+  const activeTag = useSelector((state) => state.posts.activeTag);
 
   const dispatch = useDispatch();
 
@@ -72,7 +73,7 @@ export const Header = () => {
         <img src={logo} className={styles.logo} alt="logo" />
       </Link>
       <nav>
-        <Link to="/">
+        <Link to={activeTag ? `/tag/${activeTag.name}` : "/"}>
           <button>
             <img src={home} alt="home" />
             <span className={styles.buttonLinkText}>Home</span>

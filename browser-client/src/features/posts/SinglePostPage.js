@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import timeAgo from "../../utils/timeAgo";
 import { fetchPost } from "./postsSlice";
 
+import { Tag } from "./Tag";
+
 import { Loader } from "../../shared/Loader";
 
 import styles from "./SinglePostPage.module.css";
@@ -30,6 +32,9 @@ export const SinglePostPage = () => {
     content = (
       <div>
         <h1 className={styles.postTitle}>{post.title}</h1>
+        {post.tags.map((tag) => (
+          <Tag key={tag.id} tag={tag} />
+        ))}
         <p className={styles.postInfo}>
           {`by ${post.username} ${timeAgo(post.inserted_at)}`}
         </p>

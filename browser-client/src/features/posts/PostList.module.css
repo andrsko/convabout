@@ -23,13 +23,13 @@
 
 a {
   text-decoration: none;
-  color: #187bdd;
+  color: #454545;
 }
 
 .postInfo {
   color: #959595;
   font-size: 14px;
-  margin-top: 5px;
+  margin-top: 2px;
   margin-bottom: 2px;
   display: inline-block;
   width: 100%;

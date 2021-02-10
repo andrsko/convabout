@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 
 import timeAgo from "../../utils/timeAgo";
 import { fetchPosts } from "./postsSlice";
-
+import { Tag } from "./Tag";
+import { TrendingTags } from "./TrendingTags";
+import { ActiveTag } from "./ActiveTag";
 import { Loader } from "../../shared/Loader";
 
 import styles from "./PostList.module.css";
@@ -16,6 +18,9 @@ const PostExcerpt = ({ post }) => {
     <Link to={`/chat?p=${post.id}`}>
       <article className={styles.postExcerpt} key={post.id}>
         <p className={styles.postTitle}>{post.title}</p>
+        {post.tags.map((tag) => (
+          <Tag key={tag.id} tag={tag} />
+        ))}
 
         <div className={styles.postInfo}>
           <p className={styles.postAuthorAndTimestamp}>{`by ${
@@ -37,7 +42,7 @@ const PostExcerpt = ({ post }) => {
   );
 };
 
-export const PostList = () => {
+export const PostList = (props) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
 
@@ -46,26 +51,34 @@ export const PostList = () => {
 
   useEffect(() => {
     if (postsStatus === "idle") {
-      dispatch(fetchPosts());
+      const tagName = props.match.params.tag;
+      if (tagName) dispatch(fetchPosts({ id: 0, name: tagName }));
+      else dispatch(fetchPosts());
     }
-  }, [postsStatus, dispatch]);
+  }, [postsStatus, dispatch, props.match.params.tag]);
 
-  let content;
+  let postExcerpts;
 
   if (postsStatus === "loading") {
-    content = <Loader size="large" />;
+    postExcerpts = <Loader size="large" />;
   } else if (postsStatus === "succeeded") {
     // Sort posts in reverse chronological order by datetime string
     const orderedPosts = posts
       .slice()
       .sort((a, b) => b.inserted_at.localeCompare(a.inserted_at));
 
-    content = orderedPosts.map((post) => (
+    postExcerpts = orderedPosts.map((post) => (
       <PostExcerpt key={post.id} post={post} />
     ));
   } else if (postsStatus === "error") {
-    content = <div className="error">{error}</div>;
+    postExcerpts = <div className="error">{error}</div>;
   }
 
-  return <section className={styles.postList}>{content}</section>;
+  return (
+    <section className={styles.postList}>
+      <TrendingTags />
+      <ActiveTag />
+      {postExcerpts}
+    </section>
+  );
 };

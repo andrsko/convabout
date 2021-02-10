@@ -1,0 +1,40 @@
+.tag {
+  color: #5a94ce;
+  background-color: #eceff0;
+  padding: 3px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 3px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+.tag:hover {
+  background-color: #d3e1e7;
+  color: #3d73a8;
+}
+
+.trending {
+  font-size: 18px;
+  border-radius: 7px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 10px;
+  background-color: #ffffff99;
+}
+
+.trending:focus {
+  background-color: #e6edf5;
+  color: #3d73a8;
+}
+.trending:hover {
+  background-color: #e6edf5;
+  color: #3d73a8;
+}

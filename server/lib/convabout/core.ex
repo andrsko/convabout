@@ -7,7 +7,7 @@ defmodule Convabout.Core do
   alias Convabout.Repo
 
   alias Convabout.Core.Post
-
+  alias Convabout.Core.Tag
   alias Convabout.Core.Message
 
   alias Convabout.Utils
@@ -34,13 +34,33 @@ defmodule Convabout.Core do
   """
   def list_posts do
     {:ok, postgrex_result} =
-      Repo.query("SELECT posts.*, users.username, COUNT(messages.id) AS message_count
-    FROM posts
-    LEFT JOIN users
-    ON posts.user_id=users.id
-      LEFT JOIN messages
-      ON posts.id=messages.post_id
-      GROUP BY posts.id, users.username;")
+      Repo.query(
+        "SELECT posts_with_tags_usernames.*, 
+                posts_with_message_counts.* 
+        FROM   (SELECT posts_with_tags.*, 
+                        users.username 
+                FROM   (SELECT posts.*, 
+                                coalesce(
+                                  json_agg(tags)FILTER (WHERE tags.id IS NOT NULL),
+                                  '[]')
+                                  AS tags  
+                        FROM   posts 
+                                LEFT JOIN posts_tags 
+                                      ON posts.id = posts_tags.post_id 
+                                LEFT JOIN tags 
+                                      ON posts_tags.tag_id = tags.id 
+                        GROUP  BY posts.id) posts_with_tags 
+                        LEFT JOIN users 
+                              ON posts_with_tags.user_id = users.id) 
+                posts_with_tags_usernames 
+                LEFT JOIN (SELECT posts.id, 
+                                  Count(messages.id) AS message_count 
+                          FROM   posts 
+                                  LEFT JOIN messages 
+                                        ON posts.id = messages.post_id 
+                          GROUP  BY posts.id) posts_with_message_counts 
+                      ON posts_with_tags_usernames.id = posts_with_message_counts.id;"
+                  )
 
     Utils.postgrex_result_to_map(postgrex_result)
   end
@@ -62,6 +82,7 @@ defmodule Convabout.Core do
   def get_post!(id) do
     Repo.get!(Post, id)
     |> Repo.preload([:user])
+    |> Repo.preload([:tags])    
   end
 
   @doc """
@@ -77,14 +98,105 @@ defmodule Convabout.Core do
 
   """
   def create_post(attrs \\ %{}) do
+    tags = attrs["tags"]
+    Map.delete(attrs, "tags")
+
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
     |> case do
-      {:ok, post} -> {:ok, Repo.preload(post, :user)}
+      {:ok, post} -> Repo.preload(post, [:tags]) |> create_tags(tags)
       error -> error
     end
   end
+
+  def create_tags(post, tags \\ "") do
+    String.split(tags, ",")
+    |> Enum.each(fn tag_name ->
+      create_tag(post, %{"name"=>String.trim(tag_name)})
+      end)
+
+    {:ok, Repo.preload(post, [:user, :tags])}
+  end
+
+  def create_tag(post, attrs \\ %{}) do
+    existing_tag = Repo.get_by(Tag, name: attrs["name"])
+
+    if existing_tag  != nil do
+      Repo.preload(existing_tag, [:posts])|> create_tag_post(post)
+    else
+      %Tag{}
+      |> Tag.changeset(attrs)
+      |> Repo.insert()
+      |> case do
+        {:ok, new_tag} -> Repo.preload(new_tag, [:posts])|> create_tag_post(post)
+        error -> error
+      end
+    end
+  end
+
+  def create_tag_post(tag, post) do
+    changeset = Ecto.Changeset.change(post) |> Ecto.Changeset.put_assoc(:tags, [tag])
+    Repo.update!(changeset)
+  end
+
+  def list_trending_tags() do
+    {:ok, postgrex_result} = Repo.query(
+      "SELECT tags.id, tags.name, COUNT(tag_id)
+      FROM tags
+      INNER JOIN (
+        SELECT posts_tags.tag_id
+        FROM posts
+        INNER JOIN posts_tags ON posts.id=posts_tags.post_id
+        ORDER BY inserted_at DESC
+        LIMIT 1000) last_posts_tags
+      ON tags.id = last_posts_tags.tag_id
+      GROUP BY (tags.id)
+      ORDER BY count DESC
+      LIMIT 10;")
+
+  Utils.postgrex_result_to_map(postgrex_result)
+end
+
+def list_posts_of_tag(id) do
+  {:ok, postgrex_result} = Repo.query(
+    "SELECT posts_with_tags_usernames.*, 
+        posts_with_message_counts.* 
+    FROM   (SELECT posts_with_tags.*, 
+                users.username 
+        FROM   (SELECT posts.*, 
+                        json_agg(tags) AS tags 
+                FROM   posts 
+                        LEFT JOIN posts_tags 
+                              ON posts.id = posts_tags.post_id 
+                        LEFT JOIN tags 
+                              ON posts_tags.tag_id = tags.id 
+                WHERE  posts.id IN(SELECT posts.id 
+                                    FROM   posts 
+                                          INNER JOIN posts_tags 
+                                                  ON posts.id = 
+                                                      posts_tags.post_id 
+                                    WHERE  tag_id = $1) 
+                GROUP  BY posts.id) posts_with_tags 
+                LEFT JOIN users 
+                      ON posts_with_tags.user_id = users.id) 
+        posts_with_tags_usernames 
+        LEFT JOIN (SELECT posts.id, 
+                          Count(messages.id) AS message_count 
+                  FROM   posts 
+                          LEFT JOIN messages 
+                                ON posts.id = messages.post_id 
+                  GROUP  BY posts.id) posts_with_message_counts 
+              ON posts_with_tags_usernames.id = posts_with_message_counts.id;",
+              [String.to_integer(id)])
+
+  Utils.postgrex_result_to_map(postgrex_result)
+end
+
+def tag_id_from_name(name) do
+  tag = Repo.get_by(Tag, name: name)
+  tag.id
+end
 
   @doc """
   Updates a post.

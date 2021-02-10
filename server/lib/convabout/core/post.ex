@@ -6,6 +6,7 @@ defmodule Convabout.Core.Post do
     field(:title, :string)
     has_many(:messages, Convabout.Core.Message)
     belongs_to(:user, Convabout.Accounts.User)
+    many_to_many(:tags, Convabout.Core.Tag, join_through: "posts_tags", on_replace: :delete)
 
     timestamps()
   end

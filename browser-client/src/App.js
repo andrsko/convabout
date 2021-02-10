@@ -55,6 +55,7 @@ function App() {
           <Route exact path="/signin" component={SignInForm} />
           <Route exact path="/submit" component={AddPostForm} />
           <Route exact path="/chat" component={ChatPost} />
+          <Route exact path="/tag/:tag" component={PostList} />
           <Redirect to="/" />
         </Switch>
       </div>

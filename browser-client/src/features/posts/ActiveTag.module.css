@@ -1,0 +1,50 @@
+.activeTag {
+  margin-bottom: 10px;
+  padding-left: 15px;
+  display: inline-block;
+}
+
+.tagName {
+  color: #505050;
+  display: inline;
+  font-size: 22px;
+}
+
+.removeTag {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.removeTagIcon {
+  width: 10px;
+  height: 10px;
+}
+.removeTagIcon:hover {
+  filter: brightness(1.35);
+}
+
+/* draft
+.follow {
+  color: white;
+  font-size: 18px;
+  background-color: #187bdd;
+  padding: 3px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 3px;
+  display: inline;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+.follow:hover {
+  color: white;
+  background-color: #54a1ee;
+}*/

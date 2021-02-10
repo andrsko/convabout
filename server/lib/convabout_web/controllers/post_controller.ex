@@ -43,4 +43,14 @@ defmodule ConvaboutWeb.PostController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def posts_of_tag(conn, %{"id" => id}) do
+    posts = Core.list_posts_of_tag(id)
+    render(conn, "posts_of_tag.json", posts: posts)
+  end
+
+  def posts_of_tag_name(conn, %{"name" => name}) do
+    id = to_string(Core.tag_id_from_name(name))
+    posts_of_tag(conn, %{"id" => id})
+  end
 end

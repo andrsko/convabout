@@ -19,6 +19,9 @@ defmodule ConvaboutWeb.Router do
     resources("/posts", PostController, only: [:index, :show])
     post("/sign_up", RegistrationController, :sign_up)
     post("/sign_in", SessionController, :sign_in)
+    get("/trending_tags", TagController, :trending)
+    get("/posts_of_tag/:id", PostController, :posts_of_tag)
+    get("/posts_of_tag_name/:name", PostController, :posts_of_tag_name)
   end
 
   scope "/", ConvaboutWeb do

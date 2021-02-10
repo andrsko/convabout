@@ -5,6 +5,8 @@ import { unwrapResult } from "@reduxjs/toolkit";
 
 import { signIn } from "./authSlice";
 
+import styles from "./AuthForm.module.css";
+
 export const SignInForm = () => {
   const [username, setUsername] = useState("");
   const onUsernameChanged = (e) => setUsername(e.target.value);
@@ -42,30 +44,45 @@ export const SignInForm = () => {
   );
 
   return (
-    <section>
-      <h2>Sign in</h2>
-      <form>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={onUsernameChanged}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={onPasswordChanged}
-        />
-        <button type="button" onClick={onSignUpClick}>
-          Sign In
-        </button>
-      </form>
-      {requestStatusMessage}
+    <section className={styles.formWrapper}>
+      <div className={styles.form}>
+        <h2>Sign in</h2>
+        <form>
+          <label htmlFor="username" className={styles.label}>
+            Username:
+          </label>
+          <br />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={onUsernameChanged}
+          />
+          <br />
+          <br />
+          <label htmlFor="password" className={styles.label}>
+            Password:
+          </label>
+          <br />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={onPasswordChanged}
+          />
+          <br />
+          <button
+            className={styles.button}
+            type="button"
+            onClick={onSignUpClick}
+          >
+            Sign In
+          </button>
+        </form>
+        {requestStatusMessage}
+      </div>
     </section>
   );
 };

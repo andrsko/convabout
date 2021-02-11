@@ -55,6 +55,9 @@ const postsSlice = createSlice({
     deactivateTag(state) {
       state.activeTag = null;
     },
+    resetPostStatus(state) {
+      state.postStatus = "idle";
+    },
   },
   extraReducers: {
     [fetchPosts.pending]: (state, action) => {
@@ -95,6 +98,10 @@ const postsSlice = createSlice({
   },
 });
 
-export const { activateTag, deactivateTag } = postsSlice.actions;
+export const {
+  activateTag,
+  deactivateTag,
+  resetPostStatus,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

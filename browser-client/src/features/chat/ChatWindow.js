@@ -43,18 +43,22 @@ export const ChatWindow = () => {
 
   const token = useSelector((state) => state.auth.token);
 
+  const getPostRequestStatus = useSelector((state) => state.posts.postStatus);
+
   const channel = useRef(null);
   useEffect(() => {
-    channel.current = socket.channel("chat:" + postId, {});
-    channel.current.join();
-    channel.current.on("shout", (message) => {
-      dispatch(newMessage(message));
-    });
-    return () => {
-      channel.current.leave();
-      dispatch(clearLog());
-    };
-  }, [postId, socket, dispatch]);
+    if (getPostRequestStatus === "succeeded") {
+      channel.current = socket.channel("chat:" + postId, {});
+      channel.current.join();
+      channel.current.on("shout", (message) => {
+        dispatch(newMessage(message));
+      });
+      return () => {
+        channel.current.leave();
+        dispatch(clearLog());
+      };
+    }
+  }, [getPostRequestStatus, postId, socket, dispatch]);
 
   useEffect(() => {
     // on signing up

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import timeAgo from "../../utils/timeAgo";
-import { fetchPost } from "./postsSlice";
+import { resetPostStatus, fetchPost } from "./postsSlice";
 
 import { Tag } from "./Tag";
 
@@ -20,6 +20,7 @@ export const SinglePostPage = () => {
   const error = useSelector((state) => state.posts.postError);
 
   useEffect(() => {
+    dispatch(resetPostStatus());
     let postId = new URLSearchParams(location.search).get("p");
     dispatch(fetchPost(postId));
   }, [dispatch, location]);

@@ -13,6 +13,7 @@ import { AddPostForm } from "./features/posts/AddPostForm";
 import { ChatPost } from "./app/ChatPost";
 import { SignUpForm } from "./features/auth/SignUpForm";
 import { SignInForm } from "./features/auth/SignInForm";
+import { Profile } from "./features/auth/Profile";
 
 import "./App.css";
 
@@ -56,6 +57,7 @@ function App() {
           <Route exact path="/submit" component={AddPostForm} />
           <Route exact path="/chat" component={ChatPost} />
           <Route exact path="/tag/:tag" component={PostList} />
+          <Route exact path="/profile" component={Profile} />
           <Redirect to="/" />
         </Switch>
       </div>

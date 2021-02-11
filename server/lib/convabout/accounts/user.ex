@@ -25,6 +25,14 @@ defmodule Convabout.Accounts.User do
     |> put_password_hash()
   end
 
+  def set_password(user, password) do
+    password_hash = Argon2.hash_pwd_salt(password)
+
+    user
+    |> cast(%{password: password_hash}, [:password])
+    |> validate_required(:password)
+  end
+  
   defp generate_password_if_blank(%Ecto.Changeset{changes: %{password: _}} = changeset) do
     changeset
   end

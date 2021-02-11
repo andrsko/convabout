@@ -20,7 +20,10 @@ export const Header = () => {
 
   const authMenu = username ? (
     <React.Fragment>
-      <p>{username}</p>
+      <Link to="/profile" className={styles.username}>
+        {username}
+      </Link>
+
       <button type="button" onClick={() => dispatch(signOut())}>
         Sign out
       </button>

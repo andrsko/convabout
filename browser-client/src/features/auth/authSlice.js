@@ -8,6 +8,8 @@ const initialState = {
   signUpError: "",
   signInStatus: "idle",
   signInError: "",
+  changePasswordStatus: "idle",
+  changePasswordError: "",
 };
 
 export const signUp = createAsyncThunk("auth/signUp", async (user) => {
@@ -23,6 +25,16 @@ export const signIn = createAsyncThunk("auth/signIn", async (session) => {
   });
   return response.data;
 });
+
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (data) => {
+    const response = await apiClient.post("/set_password", data.token, {
+      password: data.password,
+    });
+    return response;
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -40,6 +52,10 @@ const authSlice = createSlice({
       state.signInStatus = "idle";
       state.signInError = "";
     },
+    resumeChangePassword(state) {
+      state.changePasswordStatus = "idle";
+      state.changePasswordError = "";
+    },
   },
   extraReducers: {
     [signUp.pending]: (state, action) => {
@@ -55,6 +71,7 @@ const authSlice = createSlice({
       state.signUpStatus = "failed";
       state.signUpError = action.payload;
     },
+
     [signIn.pending]: (state, action) => {
       state.signInStatus = "loading";
       state.signUperror = "";
@@ -68,9 +85,26 @@ const authSlice = createSlice({
       state.signInStatus = "failed";
       state.signInError = action.payload;
     },
+
+    [changePassword.pending]: (state) => {
+      state.changePasswordStatus = "loading";
+      state.changePasswordError = "";
+    },
+    [changePassword.fulfilled]: (state) => {
+      state.changePasswordStatus = "succeeded";
+    },
+    [changePassword.rejected]: (state, action) => {
+      state.changePasswordStatus = "failed";
+      state.changePasswordError = action.payload;
+    },
   },
 });
 
-export const { signOut, resumeSignUp, resumeSignIn } = authSlice.actions;
+export const {
+  signOut,
+  resumeSignUp,
+  resumeSignIn,
+  resumeChangePassword,
+} = authSlice.actions;
 
 export default authSlice.reducer;

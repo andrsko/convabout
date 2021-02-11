@@ -17,8 +17,8 @@ defmodule ConvaboutWeb.Router do
     pipe_through([:api, :auth])
     resources("/chat", ChatController, only: [:show])
     resources("/posts", PostController, only: [:index, :show])
-    post("/sign_up", RegistrationController, :sign_up)
-    post("/sign_in", SessionController, :sign_in)
+    post("/sign_up", AuthController, :sign_up)
+    post("/sign_in", AuthController, :sign_in)
     get("/trending_tags", TagController, :trending)
     get("/posts_of_tag/:id", PostController, :posts_of_tag)
     get("/posts_of_tag_name/:name", PostController, :posts_of_tag_name)
@@ -27,6 +27,7 @@ defmodule ConvaboutWeb.Router do
   scope "/", ConvaboutWeb do
     pipe_through([:api, :auth, :ensure_auth])
     post("/posts", PostController, :create)
+    post("/set_password", AuthController, :set_password)
   end
 
   # Enables LiveDashboard only for development

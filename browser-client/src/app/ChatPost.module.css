@@ -1,3 +1,8 @@
+.chatPostWrapper {
+  width: 100%;
+  position: relative;
+}
+
 .chatPost {
   background-color: white;
   border: 1px solid #f0f0f0;
@@ -7,9 +12,50 @@
   margin-right: 5px;
 }
 
+.back {
+  display: none;
+}
+
+.backBackground {
+  display: none;
+}
+
 @media only screen and (min-width: 768px) {
   .chatPost {
     width: 60%;
     margin: auto;
+  }
+
+  .back {
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: fixed;
+    top: 80px;
+    left: 20px;
+  }
+
+  .backBackground {
+    display: inline-block;
+    background-color: #f3f3f3;
+    opacity: 50%;
+    width: 20%;
+    position: absolute;
+    overflow: auto;
+    min-height: max(500px, 100%);
+    height: auto;
+    cursor: pointer;
+  }
+
+  .backBackground:hover {
+    background-color: #cccccc;
+    opacity: 15%;
+  }
+
+  .back img {
+    height: 30px;
+    width: 30px;
   }
 }

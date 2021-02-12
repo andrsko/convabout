@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import timeAgo from "../../utils/timeAgo";
-import { fetchPosts } from "./postsSlice";
+import { fetchPosts, activateTag } from "./postsSlice";
 import { Tag } from "./Tag";
 import { TrendingTags } from "./TrendingTags";
 import { ActiveTag } from "./ActiveTag";
@@ -52,8 +52,11 @@ export const PostList = (props) => {
   useEffect(() => {
     if (postsStatus === "idle") {
       const tagName = props.match.params.tag;
-      if (tagName) dispatch(fetchPosts({ id: 0, name: tagName }));
-      else dispatch(fetchPosts());
+      if (tagName) {
+        const tag = { id: 0, name: tagName };
+        dispatch(activateTag(tag));
+        dispatch(fetchPosts(tag));
+      } else dispatch(fetchPosts());
     }
   }, [postsStatus, dispatch, props.match.params.tag]);
 

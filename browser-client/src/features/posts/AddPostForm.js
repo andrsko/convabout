@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import store from "../../app/store";
 
-import { addNewPost, fetchPosts } from "./postsSlice";
+import { addNewPost } from "./postsSlice";
 import { signUp, resumeSignUp } from "../auth/authSlice";
 import {
   usernameMaxLength,
@@ -66,9 +66,8 @@ export const AddPostForm = () => {
         const addNewPostResultAction = await dispatch(
           addNewPost({ token, post: { title, tags } })
         );
-        unwrapResult(addNewPostResultAction);
-        dispatch(fetchPosts());
-        history.push("/");
+        const createdPost = unwrapResult(addNewPostResultAction);
+        history.push("/chat?p=" + createdPost.id);
       } catch (err) {
         console.error("Failed to save the post: ", err);
         setRequestStatus("error");

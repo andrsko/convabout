@@ -34,7 +34,7 @@ export const addNewPost = createAsyncThunk("posts/addNewPost", async (data) => {
   const response = await apiClient.post("/posts", data.token, {
     post: data.post,
   });
-  return response.post;
+  return response.data;
 });
 
 export const fetchTrendingTags = createAsyncThunk(

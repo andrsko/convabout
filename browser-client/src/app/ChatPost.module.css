@@ -39,7 +39,7 @@
     z-index: 1;
     display: inline-block;
     background-color: #f3f3f3;
-    opacity: 50%;
+    opacity: 0.5;
     width: 15%;
     position: fixed;
     overflow: auto;
@@ -50,7 +50,7 @@
   .backPanel:hover,
   .backPanel:active {
     background-color: #cccccc;
-    opacity: 15%;
+    opacity: 0.15;
     outline: 25px solid #cccccc !important;
   }
 }

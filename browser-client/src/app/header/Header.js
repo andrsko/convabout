@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { signOut } from "../../features/auth/authSlice";
+import { deactivateTag, fetchPosts } from "../../features/posts/postsSlice";
+
 import logo from "../../logo.svg";
 import add from "./add.svg";
 import home from "./home.svg";
@@ -14,7 +16,6 @@ export const Header = () => {
   const onDropdownToggle = () => setDisplayDropdown(!displayDropdown);
 
   const username = useSelector((state) => state.auth.username);
-  const activeTag = useSelector((state) => state.posts.activeTag);
 
   const dispatch = useDispatch();
 
@@ -70,14 +71,19 @@ export const Header = () => {
     };
   }, [dropdownToggleRef, dropdownMenuRef]);
 
+  const resetHome = () => {
+    dispatch(deactivateTag());
+    dispatch(fetchPosts());
+  };
+
   return (
     <header>
-      <Link to="/">
+      <Link to="/" onClick={() => resetHome()}>
         <img src={logo} className={styles.logo} alt="logo" />
       </Link>
       <nav>
-        <Link to={activeTag ? `/tag/${activeTag.name}` : "/"}>
-          <button>
+        <Link to="/">
+          <button onClick={() => resetHome()}>
             <img src={home} alt="home" />
             <span className={styles.buttonLinkText}>Home</span>
           </button>

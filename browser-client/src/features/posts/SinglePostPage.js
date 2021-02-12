@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-import timeAgo from "../../utils/timeAgo";
+import toTimeAmPm from "../../utils/toTimeAmPm";
 import { resetPostStatus, fetchPost } from "./postsSlice";
 
 import { Tag } from "./Tag";
@@ -37,7 +37,7 @@ export const SinglePostPage = () => {
           <Tag key={tag.id} tag={tag} />
         ))}
         <p className={styles.postInfo}>
-          {`by ${post.username} ${timeAgo(post.inserted_at)}`}
+          {`by ${post.username} at ${toTimeAmPm(post.inserted_at)}`}
         </p>
       </div>
     );

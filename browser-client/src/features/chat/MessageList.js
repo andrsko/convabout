@@ -2,17 +2,11 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Linkify from "react-linkify";
 
+import toTimeAmPm from "../../utils/toTimeAmPm";
+
 import styles from "./MessageList.module.css";
 
 const MessageExcerpt = ({ message }) => {
-  const toTimeAmPm = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    });
-  };
   return (
     <div className={styles.messageExcerpt}>
       <p className={styles.author}>{message.username}</p>

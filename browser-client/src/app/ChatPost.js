@@ -12,10 +12,8 @@ export const ChatPost = () => {
 
   return (
     <div className={styles.chatPostWrapper}>
-      <button className={styles.back} type="button" onClick={backToFeed}>
-        <img src={back} alt="back" />
-      </button>
-      <div className={styles.backBackground} onClick={backToFeed} />
+      <img className={styles.backIcon} src={back} alt="back" />
+      <div className={styles.backPanel} onClick={backToFeed} />
       <div className={styles.chatPost}>
         {SinglePostPage()}
         {ChatWindow()}

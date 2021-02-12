@@ -12,11 +12,11 @@
   margin-right: 5px;
 }
 
-.back {
+.backIcon {
   display: none;
 }
 
-.backBackground {
+.backPanel {
   display: none;
 }
 
@@ -26,36 +26,31 @@
     margin: auto;
   }
 
-  .back {
+  .backIcon {
+    height: 30px;
+    width: 30px;
     display: inline-block;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
     position: fixed;
     top: 80px;
     left: 20px;
   }
 
-  .backBackground {
+  .backPanel {
+    z-index: 1;
     display: inline-block;
     background-color: #f3f3f3;
     opacity: 50%;
-    width: 20%;
-    position: absolute;
+    width: 15%;
+    position: fixed;
     overflow: auto;
-    min-height: max(500px, 100%);
-    height: auto;
+    height: 100vh;
     cursor: pointer;
   }
 
-  .backBackground:hover {
+  .backPanel:hover,
+  .backPanel:active {
     background-color: #cccccc;
     opacity: 15%;
-  }
-
-  .back img {
-    height: 30px;
-    width: 30px;
+    outline: 25px solid #cccccc !important;
   }
 }

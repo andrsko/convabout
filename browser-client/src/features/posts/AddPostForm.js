@@ -67,7 +67,7 @@ export const AddPostForm = () => {
           addNewPost({ token, post: { title, tags } })
         );
         const createdPost = unwrapResult(addNewPostResultAction);
-        history.push("/chat?p=" + createdPost.id);
+        history.push("/chat?p=" + createdPost.id + "&ref=cr");
       } catch (err) {
         console.error("Failed to save the post: ", err);
         setRequestStatus("error");

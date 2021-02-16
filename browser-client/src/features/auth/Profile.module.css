@@ -14,8 +14,6 @@
 .profile {
   background-color: white;
   padding: 15px;
-  padding-left: 50px;
-  padding-right: 50px;
   border-radius: 7px;
   box-shadow: 2px 2px 3px #eeeeee;
   color: #313131;
@@ -23,6 +21,7 @@
 
 .username {
   font-weight: bold;
+  margin-top: 0;
 }
 
 .label {
@@ -60,4 +59,10 @@
 }
 .button:focus {
   background-color: #1572b9;
+}
+
+@media only screen and (min-width: 768px) {
+  .profileWrapper {
+    width: 60%;
+  }
 }

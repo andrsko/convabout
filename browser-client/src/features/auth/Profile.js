@@ -55,7 +55,7 @@ export const Profile = () => {
       <form className={styles.profile}>
         <p className={styles.username}> {username} </p>
         <label htmlFor="password" className={styles.label}>
-          Password:
+          Set Password:
         </label>
         <br />
         <input

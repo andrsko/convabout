@@ -12,7 +12,7 @@ use Mix.Config
 config :convabout, ConvaboutWeb.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [scheme: "https", host: "convabout.herokuapp.com", port: 443],
-  check_origin: ["https://convabout.com", "https://www.convabout.com"],
+  check_origin: ["https://convabout.netlify.app"],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
@@ -20,7 +20,7 @@ config :convabout, ConvaboutWeb.Endpoint,
 config :logger, level: :info
 
 config :cors_plug,
-  origin: ["https://convabout.com", "https://www.convabout.com"]
+  origin: ["https://convabout.netlify.app"]
 
 # ## SSL Support
 #
